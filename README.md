@@ -1,9 +1,7 @@
-VIVO plugins for ldimport module
-================================
+VIVO plugins for Linked Data Import
+===================================
 
-This module includes VIVO-specific plugins for the [Linked Data Import module](http://github.com/milesw/ldimport).
-
-Currently there is only one plugin included.
+This module contains VIVO-specific plugins for the [Linked Data Import](http://github.com/milesw/ldimport) Drupal module.
 
 Requirements
 ------------
