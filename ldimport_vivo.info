@@ -1,0 +1,6 @@
+name = "Linked Data Import - VIVO"
+description = "Fetchers for retrieving Linked Data from VIVO sites"
+package = Feeds
+dependencies[] = ldimport
+core = 7.x
+files[] = ldimport.inc
