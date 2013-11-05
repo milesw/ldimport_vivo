@@ -27,3 +27,11 @@ Included plugins
 Retrieves all resources of a particular class from a VIVO instance.
 
 > ![Screenshot](https://raw.github.com/milesw/ldimport_vivo/docs/ldimport_vivo_class_fetcher.png)
+
+Included examples
+-----------------
+
+The following example modules are included to demonstrate usage. They include content types, fields, and pre-configured Feeds importers. You'll need the Features module to enable them.
+
+### VIVO Libraries
+Imports all [individuals of type http://vivoweb.org/ontology/core#Library](http://vivo.cornell.edu/individuallist?vclassId=http%3A%2F%2Fvivoweb.org%2Fontology%2Fcore%23Library) from Cornell University's VIVO instance as nodes. A few properties are mapped to Drupal text fields.
