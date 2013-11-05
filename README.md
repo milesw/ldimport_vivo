@@ -26,7 +26,7 @@ Included plugins
 ### VIVO Class Fetcher
 Retrieves all resources of a particular class from a VIVO instance.
 
-> ![Screenshot](https://raw.github.com/milesw/ldimport_vivo/docs/ldimport_vivo_class_fetcher.png)
+![Screenshot](https://raw.github.com/milesw/ldimport_vivo/docs/ldimport_vivo_class_fetcher.png)
 
 Included examples
 -----------------
