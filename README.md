@@ -31,7 +31,7 @@ Retrieves all resources of a particular class from a VIVO instance.
 Included examples
 -----------------
 
-The following example modules are included to demonstrate usage. They include content types, fields, and pre-configured Feeds importers. You'll need the Features module to enable them. Be sure to enable the feeds_ui module in order to see the importer configuration (it's not a dependency).
+The following example modules are included to demonstrate usage. They include content types, fields, and pre-configured Feeds importers. You'll need the Features module, and you'll want to enable feeds_ui as well.
 
 ### VIVO Libraries
 Imports all [individuals of type http://vivoweb.org/ontology/core#Library](http://vivo.cornell.edu/individuallist?vclassId=http%3A%2F%2Fvivoweb.org%2Fontology%2Fcore%23Library) from Cornell University's VIVO instance as nodes. A few properties are mapped to Drupal text fields.
