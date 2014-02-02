@@ -28,6 +28,10 @@ class LdImportVivoClassFetcher extends LdImportFetcher {
 
     $parser = ARC2::getRDFParser();
     $parser->parse($target_url);
+    
+    if ($errors = $parser->getErrors()) {
+      throw new Exception(t('An error occured fetching RDF from VIVO: %error', array('%error' => implode(' | ', $errors))));
+    }
 
     foreach ($parser->getTriples() as $triple) {
       if ($triple['o'] == $class_uri && $triple['p'] == 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type') {
