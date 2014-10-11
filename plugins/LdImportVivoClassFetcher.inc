@@ -26,20 +26,29 @@ class LdImportVivoClassFetcher extends LdImportFetcher {
     // This is the URL used for the RDF links on VIVO index pages.
     $target_url = url($vivo_url . '/listrdf', array('query' => array('vclass' => $class_uri)));
 
-    $parser = ARC2::getRDFParser();
-    $parser->parse($target_url);
-    
-    if ($errors = $parser->getErrors()) {
-      throw new Exception(t('An error occured fetching RDF from VIVO: %error', array('%error' => implode(' | ', $errors))));
+    $graph = new Graphite();
+    $graph->setLang($GLOBALS['language']->language);
+    $graph->setARC2Config(array('reader_timeout' => $this->config['timeout']));
+
+    if ($this->config['use_caching']) {
+      $cache_directory = file_directory_temp() . '/graphite';
+      file_prepare_directory($cache_directory, FILE_CREATE_DIRECTORY);
+      $graph->cacheDir($cache_directory, $this->config['cache_time']);
     }
 
-    foreach ($parser->getTriples() as $triple) {
-      if ($triple['o'] == $class_uri && $triple['p'] == 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type') {
-        $uri = $triple['s'];
-        $uri_list[$uri] = $uri;
-      }
+    $graph->load($target_url);
+    $list = $graph->allSubjects();
+
+    if (!$list instanceof Graphite_ResourceList) {
+      throw new Exception(t('An error occured fetching RDF from the VIVO URL: !url', array('!url' => $target_url)));
     }
 
+    foreach ($list as $resource) {
+      $uri = $resource->toString();
+      $uri_list[$uri] = $uri;
+    }
+
+    dd(count($uri_list));
     return array_values($uri_list);
   }
 
@@ -75,5 +84,44 @@ class LdImportVivoClassFetcher extends LdImportFetcher {
     if (!valid_url($values['class'], TRUE)) {
       form_set_error('feeds][class', t('The URI "%class" is not valid.', array('%class' => $values['class'])));
     }
+  }
+
+  /**
+   * Default settings.
+   */
+  public function configDefaults() {
+    return array(
+      'use_caching' => 1,
+      'cache_time' => 60 * 60 * 24 * 7,
+      'timeout' => 60,
+    );
+  }
+
+  /**
+   * Parser settings form.
+   */
+  public function configForm(&$form_state) {
+    $form = array();
+    $form['use_caching'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Cache requested data'),
+      '#description' => t('Cache RDF lists retrieved from VIVO.'),
+      '#default_value' => $this->config['use_caching'],
+    );
+    $form['cache_time'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Cache time'),
+      '#description' => t('How long, in seconds, to cache RDF lists.'),
+      '#default_value' => $this->config['cache_time'],
+      '#size' => 10,
+    );
+    $form['timeout'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Timeout'),
+      '#description' => t('How long, in seconds, to wait for RDF lists.'),
+      '#default_value' => $this->config['timeout'],
+      '#size' => 4,
+    );
+    return $form;
   }
 }
