@@ -48,7 +48,6 @@ class LdImportVivoClassFetcher extends LdImportFetcher {
       $uri_list[$uri] = $uri;
     }
 
-    dd(count($uri_list));
     return array_values($uri_list);
   }
 
